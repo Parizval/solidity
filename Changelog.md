@@ -25,6 +25,8 @@ Breaking changes:
  * JSON AST: Replace ``superFunction`` attribute by ``baseFunctions``.
  * General: ``private`` cannot be used together with ``virtual``.
  * Inheritance: State variable shadowing is now disallowed.
+ * libsolc: ``solidity_free()`` was renamed to ``solidity_reset()``. Functions ``char* solidity_alloc(size_t len)`` and ``void solidity_free(char* ptr)`` were added.
+ * libsolc: ``solidity_compile`` now returns a string that must be explicitly freed via ``solidity_free()``
 
 Language Features:
  * Allow global enums and structs.
