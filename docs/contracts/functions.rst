@@ -109,7 +109,7 @@ Returning Multiple Values
 
 When a function has multiple return types, the statement ``return (v0, v1, ..., vn)`` can be used to return multiple values.
 The number of components must be the same as the number of return variables
-and their types have to match, potentially after an implicit conversion.
+and their types have to match, potentially after an :ref:`implicit conversion <types-conversion-elementary-types>`.
 
 .. index:: ! view function, function;view
 
