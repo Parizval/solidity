@@ -101,7 +101,11 @@ private:
 	/// Resolves an override list of UserDefinedTypeNames to a list of contracts.
 	std::set<ContractDefinition const*, LessFunction> resolveOverrideList(OverrideSpecifier const& _overrides) const;
 
-	void checkModifierOverrides(FunctionMultiSet const& _funcSet, ModifierMultiSet const& _modSet, std::vector<ModifierDefinition const*> _modifiers);
+	void checkModifierOverrides(
+		FunctionMultiSet const& _inheritedFunctions,
+		ModifierMultiSet const& _inheritedModifiers,
+		std::vector<ModifierDefinition const*> _definedModifiers
+	);
 	void checkOverrideList(FunctionMultiSet const& _funcSet, FunctionDefinition const& _function);
 
 	/// Returns all functions of bases that have not yet been overwritten.

@@ -818,17 +818,21 @@ set<ContractDefinition const*, ContractLevelChecker::LessFunction> ContractLevel
 }
 
 
-void ContractLevelChecker::checkModifierOverrides(FunctionMultiSet const& _funcSet, ModifierMultiSet const& _modSet, std::vector<ModifierDefinition const*> _modifiers)
+void ContractLevelChecker::checkModifierOverrides(
+	FunctionMultiSet const& _inheritedFunctions,
+	ModifierMultiSet const& _inheritedModifiers,
+	std::vector<ModifierDefinition const*> _definedModifiers
+)
 {
-	for (ModifierDefinition const* modifier: _modifiers)
+	for (ModifierDefinition const* modifier: _definedModifiers)
 	{
-		if (contains_if(_funcSet, MatchByName{modifier->name()}))
+		if (contains_if(_inheritedFunctions, MatchByName{modifier->name()}))
 			m_errorReporter.typeError(
 				modifier->location(),
 				"Override changes function to modifier."
 			);
 
-		auto [begin,end] = _modSet.equal_range(modifier);
+		auto [begin, end] = _inheritedModifiers.equal_range(modifier);
 
 		// Skip if no modifiers found in bases
 		if (begin == end)
