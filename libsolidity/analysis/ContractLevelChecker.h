@@ -52,7 +52,6 @@ public:
 	/// @returns true iff all checks passed. Note even if all checks passed, errors() can still contain warnings
 	bool check(ContractDefinition const& _contract);
 
-private:
 	struct LessFunction
 	{
 		bool operator()(ModifierDefinition const* _a, ModifierDefinition const* _b) const;
@@ -62,6 +61,13 @@ private:
 
 	using FunctionMultiSet = std::multiset<FunctionDefinition const*, LessFunction>;
 	using ModifierMultiSet = std::multiset<ModifierDefinition const*, LessFunction>;
+
+	/// Returns all functions of bases that have not yet been overwritten.
+	/// May contain the same function multiple times when used with shared bases.
+	FunctionMultiSet const& inheritedFunctions(ContractDefinition const* _contract) const;
+	ModifierMultiSet const& inheritedModifiers(ContractDefinition const* _contract) const;
+private:
+
 
 	/// Checks that two functions defined in this contract with the same name have different
 	/// arguments and that there is at most one constructor.
@@ -103,11 +109,6 @@ private:
 
 	void checkModifierOverrides(FunctionMultiSet const& _funcSet, ModifierMultiSet const& _modSet, std::vector<ModifierDefinition const*> _modifiers);
 	void checkOverrideList(FunctionMultiSet const& _funcSet, FunctionDefinition const& _function);
-
-	/// Returns all functions of bases that have not yet been overwritten.
-	/// May contain the same function multiple times when used with shared bases.
-	FunctionMultiSet const& inheritedFunctions(ContractDefinition const* _contract) const;
-	ModifierMultiSet const& inheritedModifiers(ContractDefinition const* _contract) const;
 
 	/// Warns if the contract has a payable fallback, but no receive ether function.
 	void checkPayableFallbackWithoutReceive(ContractDefinition const& _contract);
